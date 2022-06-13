@@ -122,7 +122,7 @@ import Vue from 'vue'
 import userInfoApi from '@/api/userInfo'
 import smsApi from '@/api/msm'
 // import hospitalApi from '@/api/hosp/hospital'
-// import weixinApi from '@/api/user/weixin'
+import weixinApi from '@/api/weixin'
 
 const defaultDialogAtrr = {
   showLoginType: 'phone', // 控制手机登录与微信登录切换
@@ -181,6 +181,7 @@ export default {
       debugger
       self.loginCallback(name, token, openid);
     }
+
   },
 
   methods: {
@@ -200,7 +201,6 @@ export default {
       // 打开手机登录层，绑定手机号，改逻辑与手机登录一致
       if (openid != '') {
         this.userInfo.openid = openid
-
         this.showLogin()
       } else {
         this.setCookies(name, token)
@@ -348,7 +348,7 @@ export default {
       window.location.href = '/hospital/' + item.hoscode
     },
 
-    /*weixinLogin() {
+    weixinLogin() {
       this.dialogAtrr.showLoginType = 'weixin'
 
       weixinApi.getLoginParam().then(response => {
@@ -363,7 +363,7 @@ export default {
           href: '' // 外部css文件url，需要https
         })
       })
-    },*/
+    },
 
     phoneLogin() {
       this.dialogAtrr.showLoginType = 'phone'
