@@ -12,7 +12,7 @@ export default {
   //根据医院名称做模糊查询
   findChildData(id){
     return request({
-      url:`${api_name}/findChildData/{id}`,
+      url:`${api_name}/findChildData/${id}`,
       method:'get'
     })
   }
