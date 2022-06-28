@@ -103,6 +103,7 @@ import '~/assets/css/hospital.css'
 
 import hospitalApi from '@/api/hosp'
 import userInfoApi from '@/api/userInfo'
+import cookie from "js-cookie";
 
 export default {
   data() {
