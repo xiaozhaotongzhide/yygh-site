@@ -80,7 +80,7 @@
           <div>1、请确认就诊人信息是否准确，若填写错误将无法取号就诊，损失由本人承担；<br>
             <span style="color:red">2、【取号】就诊当天需在{{ orderInfo.fetchTime }}在医院取号，未取号视为爽约，该号不退不换；</span><br>
             3、【退号】在{{ orderInfo.quitTime }}前可在线退号 ，逾期将不可办理退号退费；<br>
-            4、北京114预约挂号支持自费患者使用身份证预约，同时支持北京市医保患者使用北京社保卡在平台预约挂号。请于就诊当日，携带预约挂号所使用的有效身份证件到院取号；<br>
+            4、预约挂号支持自费患者使用身份证预约，同时支持北京市医保患者使用北京社保卡在平台预约挂号。请于就诊当日，携带预约挂号所使用的有效身份证件到院取号；<br>
             5、请注意北京市医保患者在住院期间不能使用社保卡在门诊取号。
           </div>
         </div>
@@ -93,16 +93,14 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- 右侧内容 #end -->
+    </div><!-- 右侧内容 #end -->
     <!-- 微信支付弹出框 -->
     <el-dialog :visible.sync="dialogPayVisible" style="text-align: left" :append-to-body="true" width="500px" @close="closeDialog">
       <div class="container">
         <div class="operate-view" style="height: 350px;">
           <div class="wrapper wechat">
             <div>
-              <img src="images/weixin.jpg" alt="">
-
+              <qriously :value="payObj.codeUrl" :size="220"/>
               <div style="text-align: center;line-height: 25px;margin-bottom: 40px;">
                 请使用微信扫一扫<br/>
                 扫描二维码支付
@@ -112,13 +110,13 @@
         </div>
       </div>
     </el-dialog>
-  </div>
-  <!-- footer -->
+  </div><!-- footer -->
 </template>
 <script>
 import '~/assets/css/hospital_personal.css'
 import '~/assets/css/hospital.css'
 import orderInfoApi from '@/api/orderInfo'
+import weixinApi from '@/api/weixin'
 export default {
   data() {
     return {
@@ -141,6 +139,50 @@ export default {
         console.log(response.data);
         this.orderInfo = response.data
       })
+    },
+    //取消预约
+    cancelOrder() {
+      this.$confirm('确定取消预约吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => { // promise
+        // 点击确定，远程调用
+        return weixinApi.cancelOrder(this.orderId)
+      }).then((response) => {
+        this.$message.success('取消成功')
+        this.init()
+      }).catch(() => {
+        this.$message.info('已取消取消预约')
+      })
+    },
+    pay() {
+      this.dialogPayVisible = true
+      weixinApi.createNative(this.orderId).then(response => {
+        this.payObj = response.data
+        if(this.payObj.codeUrl === '') {
+          this.dialogPayVisible = false
+          this.$message.error("支付错误")
+        } else {
+          this.timer = setInterval(() => {
+            this.queryPayStatus(this.orderId)
+          }, 3000);
+        }
+      })
+    },
+    queryPayStatus(orderId) {
+      weixinApi.queryPayStatus(orderId).then(response => {
+        if (response.message === '支付中') {
+          return
+        }
+        clearInterval(this.timer);
+        window.location.reload()
+      })
+    },
+    closeDialog() {
+      if(this.timer) {
+        clearInterval(this.timer);
+      }
     }
   }
 }
@@ -168,4 +210,3 @@ export default {
   margin-top: 0;
 }
 </style>
-
