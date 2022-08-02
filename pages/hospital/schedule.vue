@@ -72,7 +72,8 @@
               <div class="block"></div>
               上午号源
             </div>
-            <div v-for="item in scheduleList" :key="item.id" v-if="item.workTime == 0">
+            <div v-for="item in scheduleList" :key="item.id" >
+              <div v-if="item.workTime === 0">
               <div class="list-item">
                 <div class="item-wrapper">
                   <div class="title-wrapper">
@@ -91,6 +92,7 @@
                   </div>
                 </div>
               </div>
+              </div>
             </div>
           </div>
         </div>
@@ -102,7 +104,8 @@
               <div class="block"></div>
               下午号源
             </div>
-            <div v-for="item in scheduleList" :key="item.id" v-if="item.workTime == 1">
+            <div v-for="item in scheduleList" :key="item.id">
+              <div v-if="item.workTime === 1">
               <div class="list-item">
                 <div class="item-wrapper">
                   <div class="title-wrapper">
@@ -120,6 +123,7 @@
                       <span>剩余<span class="number">{{ item.availableNumber }}</span></span></div>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>

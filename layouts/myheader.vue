@@ -10,11 +10,19 @@
       <div class="search-wrapper">
         <div class="hospital-search animation-show">
           <div id="search" style="display: block;">
-            <el-autocomplete
+<!--            <el-autocomplete-->
+<!--              class="search-input"-->
+<!--              prefix-icon="el-icon-search"-->
+<!--              v-model="hosname"-->
+<!--              :fetch-suggestions="querySearchAsync"-->
+<!--              :trigger-on-focus="false"-->
+<!--              @select="handleSelect"-->
+<!--              placeholder="点击输入医院名称"-->
+<!--            >-->
+              <el-autocomplete
               class="search-input"
               prefix-icon="el-icon-search"
               v-model="hosname"
-              :fetch-suggestions="querySearchAsync"
               :trigger-on-focus="false"
               @select="handleSelect"
               placeholder="点击输入医院名称"
@@ -26,7 +34,7 @@
       </div>
       <!-- 右侧 -->
       <div class="right-wrapper">
-        <span class="v-link clickable">帮助中心</span>
+        <span class="v-link clickable" @click="gochat()">在线客服</span>
 
         <span v-if="name == ''" class="v-link clickable" @click="showLogin()" id="loginDialog">登录/注册</span>
 
@@ -145,9 +153,10 @@ export default {
       userInfo: {
         phone: '',
         code: '',
-        openid: ''
+        openid: '',
       },
 
+      hosname:'',
       dialogUserFormVisible: false,
       // 弹出层相关属性
       dialogAtrr: defaultDialogAtrr,
@@ -185,6 +194,10 @@ export default {
   },
 
   methods: {
+    gochat() {
+      this.$router.push('/chat');
+    },
+
     schedule(depcode) {
       // 登录判断
       let token = cookie.get('token')
