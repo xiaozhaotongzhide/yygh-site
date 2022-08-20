@@ -4,13 +4,13 @@
     <!--左侧导航 #start -->
     <div class="nav left-nav">
       <div class="nav-item selected">
-        <span class="v-link selected dark" :onclick="'javascript:window.location=\'/hosp/'+hoscode+'\''">预约挂号 </span>
+        <span class="v-link selected dark" :onclick="'javascript:window.location=\'/hospital/'+hoscode+'\''">预约挂号 </span>
       </div>
       <div class="nav-item ">
-        <span class="v-link clickable dark" :onclick="'javascript:window.location=\'/hosp/detail/'+hoscode+'\''"> 医院详情 </span>
+        <span class="v-link clickable dark" :onclick="'javascript:window.location=\'/hospital/detail/'+hoscode+'\''"> 医院详情 </span>
       </div>
       <div class="nav-item">
-        <span class="v-link clickable dark" :onclick="'javascript:window.location=\'/hosp/notice/'+hoscode+'\''"> 预约须知 </span>
+        <span class="v-link clickable dark" :onclick="'javascript:window.location=\'/hospital/notice/'+hoscode+'\''"> 预约须知 </span>
       </div>
       <div class="nav-item "><span
         class="v-link clickable dark"> 停诊信息 </span>
